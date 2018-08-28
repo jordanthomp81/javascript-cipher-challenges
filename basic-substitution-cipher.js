@@ -2,13 +2,13 @@ var newMessage = '';
 
 function rotateAlphabet(offset) {
   var lookupShifted = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-  if(offset < 0) {
-    offset = Math.abs(offset);
+  if(offset > 0) {
     while (offset--) {
       var temp = lookupShifted.shift();
       lookupShifted.push(temp);
     }
   }else {
+    offset = Math.abs(offset);
     while (offset--) {
       var temp = lookupShifted.pop();
       lookupShifted.unshift(temp);
@@ -38,9 +38,9 @@ function encryptMessage(message,offset) {
   var lookup = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
   var offsetLookup = rotateAlphabet(offset);
   for(x=0; x < message.length; x++) {
-    var tempLocation = lookup.indexOf(message[x]);
+    var tempLocation = lookup.indexOf(message[x].toLowerCase());
     if(tempLocation > -1) {
-      newMessage += offsetLookup[lookup.indexOf(message[x])];
+      newMessage += offsetLookup[tempLocation];
     }else if(message[x] = ' ') {
       newMessage += ' ';
     }
@@ -54,7 +54,7 @@ function decryptMessage(message, offset) {
   var lookup = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
   var offsetLookup = rotateAlphabet(offset);
   for(x=0; x < message.length; x++) {
-    var tempLocation = offsetLookup.indexOf(message[x]);
+    var tempLocation = offsetLookup.indexOf(message[x].toLowerCase());
     if(tempLocation > -1) {
       newMessage += lookup[tempLocation];
     }else if(message[x] = ' ') {
